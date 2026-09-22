@@ -51,5 +51,16 @@ RSpec.describe Simulator do
         expect(toy.report).to eq('0,0,SOUTH')
       end
     end
+
+    context 'when moving within boundary' do
+      it 'facilitates movement' do
+        starting_position = { x: 0, y: 0, orientation: 'NORTH' }
+
+        toy.place(**starting_position)
+        toy.move
+
+        expect(toy.report).to eq('0,1,NORTH')
+      end
+    end
   end
 end

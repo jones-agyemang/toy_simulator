@@ -34,16 +34,14 @@ class Simulator
 
   def move
     case position[:orientation]
+    when 'NORTH'
+      position[:y] += 1 if (position[:y] + 1).between?(0, board[1] - 1)
     when 'SOUTH'
-      position[:y] -= 1 if destination_within_bounds?
+      position[:y] -= 1 if (position[:y] - 1).between?(0, board[1] - 1)
     end
   end
 
   private
-
-  def destination_within_bounds?
-    (position[:y] - 1).between?(0, board[1] - 1)
-  end
 
   def within_bounds?(position, axis)
     position.negative? || position < (@board[axis] - 1)
