@@ -27,6 +27,8 @@ class Simulator
   # rubocop:enable Naming/MethodParameterName
 
   def report
+    return '' if position.values.any?(&:nil?)
+
     [position[:x], position[:y], position[:orientation]].join(',')
   end
 

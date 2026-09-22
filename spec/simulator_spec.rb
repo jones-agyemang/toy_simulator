@@ -31,4 +31,12 @@ RSpec.describe Simulator do
       end
     end
   end
+
+  describe '#report' do
+    context 'when toy is unplaced' do
+      it 'should have nothing to report' do
+        expect(toy.report).to eq('')
+      end
+    end
+  end
 end
