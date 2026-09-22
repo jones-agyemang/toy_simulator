@@ -14,6 +14,14 @@ RSpec.describe Simulator do
         end
       end
 
+      context 'when within the confines of the board' do
+        it 'positions it with the right orientation' do
+          toy.place(x: 0, y: 0, orientation: 'NORTH')
+
+          expect(toy.report).to eq('0,0,NORTH')
+        end
+      end
+
       context 'with invalid orientation' do
         it 'raises an orientation error' do
           expect do
