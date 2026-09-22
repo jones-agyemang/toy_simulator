@@ -13,6 +13,14 @@ RSpec.describe Simulator do
           expect { toy.place(x: 5, y: 5, orientation: 'NORTH') }.to raise_error(InvalidMoveError)
         end
       end
+
+      context 'with invalid orientation' do
+        it 'raises an orientation error' do
+          expect do
+            toy.place(x: 0, y: 0, orientation: 'ICEBERG')
+          end.to raise_error(InvalidOrientationError)
+        end
+      end
     end
   end
 end

@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 class InvalidMoveError < StandardError; end
+class InvalidOrientationError < StandardError; end
 
 # Simulates toy robot interactions
 class Simulator
+  VALID_ORIENTATIONS = %w[NORTH SOUTH EAST WEST].freeze
+
   attr_reader :board
 
   def initialize
@@ -12,6 +15,7 @@ class Simulator
 
   def place(x:, y:, orientation:)
     raise InvalidMoveError unless within_bounds?(x, 0) || within_bounds?(y, 1)
+    raise InvalidOrientationError unless VALID_ORIENTATIONS.include?(orientation)
   end
 
   private
