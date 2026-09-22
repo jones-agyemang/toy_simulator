@@ -42,16 +42,25 @@ class Simulator
   end
 
   def left
-    case position[:orientation]
-    when 'NORTH'
-      position[:orientation] = 'WEST'
-    when 'WEST'
-      position[:orientation] = 'SOUTH'
-    when 'SOUTH'
-      position[:orientation] = 'EAST'
-    when 'EAST'
-      position[:orientation] = 'NORTH'
-    end
+    mapping = {
+      'NORTH' => 'WEST',
+      'WEST' => 'SOUTH',
+      'SOUTH' => 'EAST',
+      'EAST' => 'NORTH'
+    }.freeze
+
+    position[:orientation] = mapping.fetch(position[:orientation])
+  end
+
+  def right
+    mapping = {
+      'NORTH' => 'EAST',
+      'EAST' => 'SOUTH',
+      'SOUTH' => 'WEST',
+      'WEST' => 'NORTH'
+    }.freeze
+
+    position[:orientation] = mapping.fetch(position[:orientation])
   end
 
   private

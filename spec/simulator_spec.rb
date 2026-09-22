@@ -112,5 +112,51 @@ RSpec.describe Simulator do
         end
       end
     end
+
+    describe '#right' do
+      context 'when facing NORTH' do
+        let(:orientation) { 'NORTH' }
+
+        it 'alters orientation to EAST' do
+          toy.place(**starting_position)
+          toy.right
+
+          expect(toy.report).to eq('0,0,EAST')
+        end
+      end
+
+      context 'when facing EAST' do
+        let(:orientation) { 'EAST' }
+
+        it 'alters orientation to SOUTH' do
+          toy.place(**starting_position)
+          toy.right
+
+          expect(toy.report).to eq('0,0,SOUTH')
+        end
+      end
+
+      context 'when facing SOUTH' do
+        let(:orientation) { 'SOUTH' }
+
+        it 'alters orientation to WEST' do
+          toy.place(**starting_position)
+          toy.right
+
+          expect(toy.report).to eq('0,0,WEST')
+        end
+      end
+
+      context 'when facing WEST' do
+        let(:orientation) { 'WEST' }
+
+        it 'alters orientation to NORTH' do
+          toy.place(**starting_position)
+          toy.right
+
+          expect(toy.report).to eq('0,0,NORTH')
+        end
+      end
+    end
   end
 end
