@@ -39,4 +39,17 @@ RSpec.describe Simulator do
       end
     end
   end
+
+  describe '#move' do
+    context 'when moving out of bounds' do
+      it 'prohibits movement' do
+        starting_position = { x: 0, y: 0, orientation: 'SOUTH' }
+
+        toy.place(**starting_position)
+        toy.move
+
+        expect(toy.report).to eq('0,0,SOUTH')
+      end
+    end
+  end
 end
