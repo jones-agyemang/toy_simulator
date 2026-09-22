@@ -41,6 +41,19 @@ class Simulator
     end
   end
 
+  def left
+    case position[:orientation]
+    when 'NORTH'
+      position[:orientation] = 'WEST'
+    when 'WEST'
+      position[:orientation] = 'SOUTH'
+    when 'SOUTH'
+      position[:orientation] = 'EAST'
+    when 'EAST'
+      position[:orientation] = 'NORTH'
+    end
+  end
+
   private
 
   def within_bounds?(position, axis)
