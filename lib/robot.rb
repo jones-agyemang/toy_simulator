@@ -16,7 +16,7 @@ class Robot
     'EAST' => 'NORTH'
   }.freeze
 
-  attr_accessor :x, :y, :orientation
+  attr_accessor :x, :y, :orientation, :placed
   attr_reader :table
 
   def initialize(table = Table.new)
@@ -24,6 +24,7 @@ class Robot
     @x = nil
     @y = nil
     @orientation = nil
+    @placed = false
   end
 
   # rubocop:disable-next Naming/MethodParameterName
@@ -31,9 +32,14 @@ class Robot
     return unless table.within_bounds?(x, y)
     return unless VALID_ORIENTATIONS.include?(orientation)
 
+    self.placed = true
     self.x = x
     self.y = y
     self.orientation = orientation
+  end
+
+  def placed?
+    placed
   end
 
   def report

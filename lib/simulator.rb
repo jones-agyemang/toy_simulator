@@ -10,23 +10,26 @@ class Simulator
   end
 
   def run
-    placed = false
     output = []
+
     commands.each do |command|
       cmd, args = command.split
-
-      placed = true if cmd == 'PLACE'
-      next unless placed
 
       case cmd
       when 'PLACE'
         x, y, orientation = args.split(',')
         robot.place(x: x.to_i, y: y.to_i, orientation:)
       when 'MOVE'
+        next unless robot.placed?
+
         robot.move
       when 'LEFT'
+        next unless robot.placed?
+
         robot.left
       when 'REPORT'
+        next unless robot.placed?
+
         output << robot.report
       end
     end

@@ -11,7 +11,7 @@ RSpec.describe Simulator do
   describe '#run' do
     context 'when command set has no valid PLACE command' do
       let(:commands) { %w[MOVE REPORT] }
-      let(:robot) { instance_spy(Robot) }
+      let(:robot) { instance_spy(Robot, placed?: false) }
 
       before { simulator.run }
 
@@ -35,9 +35,7 @@ RSpec.describe Simulator do
         end
 
         it 'successfully executes all subsequent commands' do
-          simulation_output = simulator.run
-
-          expect(simulation_output).to eq(['0,1,NORTH'])
+          expect(simulator.run).to eq(['0,1,NORTH'])
         end
       end
     end
