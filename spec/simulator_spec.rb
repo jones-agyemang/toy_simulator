@@ -4,8 +4,9 @@ require_relative '../lib/robot'
 require_relative '../lib/simulator'
 
 RSpec.describe Simulator do
-  let(:robot) { Robot.new }
   subject(:simulator) { described_class.new(commands, robot) }
+
+  let(:robot) { Robot.new }
 
   describe '#run' do
     context 'when command set has no valid PLACE command' do

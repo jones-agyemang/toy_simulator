@@ -6,6 +6,12 @@ class InvalidOrientationError < StandardError; end
 # Bot that facilitates exploration
 class Robot
   VALID_ORIENTATIONS = %w[NORTH SOUTH EAST WEST].freeze
+  ORIENTATION_MAPPING = {
+    'NORTH' => 'WEST',
+    'WEST' => 'SOUTH',
+    'SOUTH' => 'EAST',
+    'EAST' => 'NORTH'
+  }.freeze
 
   attr_reader :board
   attr_accessor :position
@@ -15,7 +21,7 @@ class Robot
     @position = { x: nil, y: nil, orientation: nil }
   end
 
-  # rubocop:disable Naming/MethodParameterName
+  # rubocop:disable-next Naming/MethodParameterName
   def place(x:, y:, orientation:)
     raise InvalidMoveError unless within_bounds?(x, 0) || within_bounds?(y, 1)
     raise InvalidOrientationError unless VALID_ORIENTATIONS.include?(orientation)
@@ -24,7 +30,6 @@ class Robot
     position[:y] = y
     position[:orientation] = orientation
   end
-  # rubocop:enable Naming/MethodParameterName
 
   def report
     return '' if position.values.any?(&:nil?)
@@ -46,25 +51,11 @@ class Robot
   end
 
   def left
-    mapping = {
-      'NORTH' => 'WEST',
-      'WEST' => 'SOUTH',
-      'SOUTH' => 'EAST',
-      'EAST' => 'NORTH'
-    }.freeze
-
-    position[:orientation] = mapping.fetch(position[:orientation])
+    position[:orientation] = ORIENTATION_MAPPING.fetch(position[:orientation])
   end
 
   def right
-    mapping = {
-      'NORTH' => 'EAST',
-      'EAST' => 'SOUTH',
-      'SOUTH' => 'WEST',
-      'WEST' => 'NORTH'
-    }.freeze
-
-    position[:orientation] = mapping.fetch(position[:orientation])
+    position[:orientation] = ORIENTATION_MAPPING.invert.fetch(position[:orientation])
   end
 
   private
