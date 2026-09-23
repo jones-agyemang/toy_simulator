@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../lib/commands/place_command'
+require_relative '../lib/commands/move_command'
 
 # Runs the given
 class Simulator
@@ -22,7 +23,7 @@ class Simulator
       when 'MOVE'
         next unless robot.placed?
 
-        robot.move
+        MoveCommand.call(robot)
       when 'LEFT'
         next unless robot.placed?
 
