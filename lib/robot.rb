@@ -16,11 +16,9 @@ class Robot
   }.freeze
 
   attr_reader :table
-  attr_accessor :position
 
   def initialize
     @table = Table.new
-    @position = { x: nil, y: nil, orientation: nil }
   end
 
   # rubocop:disable-next Naming/MethodParameterName
@@ -28,35 +26,39 @@ class Robot
     raise InvalidMoveError unless table.within_bounds?(x, y)
     raise InvalidOrientationError unless VALID_ORIENTATIONS.include?(orientation)
 
-    position[:x] = x
-    position[:y] = y
-    position[:orientation] = orientation
+    @x = x
+    @y = y
+    @orientation = orientation
   end
 
   def report
     return '' if position.values.any?(&:nil?)
 
-    [position[:x], position[:y], position[:orientation]].join(',')
+    [@x, @y, @orientation].join(',')
   end
 
   def move
-    case position[:orientation]
+    case @orientation
     when 'NORTH'
-      position[:y] += 1 if table.within_bounds?(position[:x], position[:y] + 1)
+      @y += 1 if table.within_bounds?(@x, @y + 1)
     when 'SOUTH'
-      position[:y] -= 1 if table.within_bounds?(position[:x], position[:y] - 1)
+      @y -= 1 if table.within_bounds?(@x, @y - 1)
     when 'EAST'
-      position[:x] += 1 if table.within_bounds?(position[:x] + 1, position[:y])
+      @x += 1 if table.within_bounds?(@x + 1, @y)
     when 'WEST'
-      position[:x] -= 1 if table.within_bounds?(position[:x] - 1, position[:y])
+      @x -= 1 if table.within_bounds?(@x - 1, @y)
     end
   end
 
   def left
-    position[:orientation] = ORIENTATION_MAPPING.fetch(position[:orientation])
+    @orientation = ORIENTATION_MAPPING.fetch(@orientation)
   end
 
   def right
-    position[:orientation] = ORIENTATION_MAPPING.invert.fetch(position[:orientation])
+    @orientation = ORIENTATION_MAPPING.invert.fetch(@orientation)
+  end
+
+  def position
+    { x: @x, y: @y, orientation: @orientation }
   end
 end
