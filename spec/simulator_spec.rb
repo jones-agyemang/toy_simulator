@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative '../lib/robot'
 require_relative '../lib/simulator'
 
 RSpec.describe Simulator do

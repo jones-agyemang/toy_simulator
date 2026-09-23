@@ -40,6 +40,8 @@ class Robot
       position[:y] -= 1 if (position[:y] - 1).between?(0, board[1] - 1)
     when 'EAST'
       position[:x] += 1 if (position[:x] + 1).between?(0, board[0] - 1)
+    when 'WEST'
+      position[:x] -= 1 if (position[:x] - 1).between?(0, board[0] - 1)
     end
   end
 

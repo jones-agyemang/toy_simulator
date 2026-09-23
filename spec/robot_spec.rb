@@ -53,13 +53,36 @@ RSpec.describe Robot do
     end
 
     context 'when moving within boundary' do
-      it 'facilitates movement' do
-        starting_position = { x: 0, y: 0, orientation: 'NORTH' }
+      {
+        'NORTH' => '2,3,NORTH',
+        'SOUTH' => '2,1,SOUTH',
+        'EAST' => '3,2,EAST',
+        'WEST' => '1,2,WEST'
+      }.each do |orientation, expected_position|
+        context "when facing #{orientation}" do
+          let(:orientation) { orientation }
+          let(:starting_position) { { x: 2, y: 2, orientation: } }
 
-        robot.place(**starting_position)
-        robot.move
+          it "moves one unit in direction of orientation(#{orientation})" do
+            robot.place(**starting_position)
+            robot.move
+            
+            expect(robot.report).to eq(expected_position)
+          end
+        end
+      end
 
-        expect(robot.report).to eq('0,1,NORTH')
+      context 'when facing NORTH' do
+        let(:orientation) { 'NORTH' }
+
+        it 'moves one unit NORTH' do
+          starting_position = { x: 0, y: 0, orientation: }
+
+          robot.place(**starting_position)
+          robot.move
+
+          expect(robot.report).to eq('0,1,NORTH')
+        end
       end
     end
   end
