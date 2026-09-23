@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../lib/table'
+
 require_relative '../lib/errors/invalid_move_error'
 require_relative '../lib/errors/invalid_orientation_error'
 
@@ -16,14 +18,14 @@ class Robot
   attr_reader :table
   attr_accessor :position
 
-  def initialize(table = [5, 5])
-    @table = table
+  def initialize
+    @table = Table.new
     @position = { x: nil, y: nil, orientation: nil }
   end
 
   # rubocop:disable-next Naming/MethodParameterName
   def place(x:, y:, orientation:)
-    raise InvalidMoveError unless within_bounds?(x, 0) || within_bounds?(y, 1)
+    raise InvalidMoveError unless table.within_bounds?(x, y)
     raise InvalidOrientationError unless VALID_ORIENTATIONS.include?(orientation)
 
     position[:x] = x
@@ -40,13 +42,13 @@ class Robot
   def move
     case position[:orientation]
     when 'NORTH'
-      position[:y] += 1 if (position[:y] + 1).between?(0, table[1] - 1)
+      position[:y] += 1 if table.within_bounds?(position[:x], position[:y] + 1)
     when 'SOUTH'
-      position[:y] -= 1 if (position[:y] - 1).between?(0, table[1] - 1)
+      position[:y] -= 1 if table.within_bounds?(position[:x], position[:y] - 1)
     when 'EAST'
-      position[:x] += 1 if (position[:x] + 1).between?(0, table[0] - 1)
+      position[:x] += 1 if table.within_bounds?(position[:x] + 1, position[:y])
     when 'WEST'
-      position[:x] -= 1 if (position[:x] - 1).between?(0, table[0] - 1)
+      position[:x] -= 1 if table.within_bounds?(position[:x] - 1, position[:y])
     end
   end
 
@@ -56,11 +58,5 @@ class Robot
 
   def right
     position[:orientation] = ORIENTATION_MAPPING.invert.fetch(position[:orientation])
-  end
-
-  private
-
-  def within_bounds?(position, axis)
-    position.negative? || position < (@table[axis] - 1)
   end
 end
