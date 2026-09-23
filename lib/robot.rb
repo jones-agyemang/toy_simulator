@@ -14,8 +14,8 @@ class Robot
 
   attr_reader :table
 
-  def initialize
-    @table = Table.new
+  def initialize(table = Table.new)
+    @table = table
   end
 
   # rubocop:disable-next Naming/MethodParameterName

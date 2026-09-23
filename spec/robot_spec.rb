@@ -5,7 +5,7 @@ require 'rspec-parameterized'
 require_relative '../lib/robot'
 
 RSpec.describe Robot do
-  subject(:robot) { described_class.new }
+  subject(:robot) { described_class.new(table) }
 
   let(:width) { 5 }
   let(:height) { 5 }
@@ -14,6 +14,9 @@ RSpec.describe Robot do
   describe '#place' do
     context 'when initially placed' do
       context 'when outside the confines of the table' do
+        let(:width) { 3 }
+        let(:dimensions) { 3 }
+
         it 'ignores placing the robot' do
           robot.place(x: 5, y: 5, orientation: 'NORTH')
 
@@ -46,7 +49,13 @@ RSpec.describe Robot do
       end
     end
 
-    # TODO: Add spec for when Robot is placed
+    context 'when robot is placed' do
+      it 'reports current position' do
+        robot.place(x: 0, y: 0, orientation: 'NORTH')
+
+        expect(robot.report).to eq('0,0,NORTH')
+      end
+    end
   end
 
   describe '#move' do
@@ -57,7 +66,7 @@ RSpec.describe Robot do
         robot.place(**starting_position)
         robot.move
 
-        expect(robot.position).to eq({ x: 0, y: 0, orientation: 'SOUTH' })
+        expect(robot.position).to eq(starting_position)
       end
     end
 
