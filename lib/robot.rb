@@ -2,9 +2,6 @@
 
 require_relative '../lib/table'
 
-require_relative '../lib/errors/invalid_move_error'
-require_relative '../lib/errors/invalid_orientation_error'
-
 # Bot that facilitates exploration
 class Robot
   VALID_ORIENTATIONS = %w[NORTH SOUTH EAST WEST].freeze
@@ -23,8 +20,8 @@ class Robot
 
   # rubocop:disable-next Naming/MethodParameterName
   def place(x:, y:, orientation:)
-    raise InvalidMoveError unless table.within_bounds?(x, y)
-    raise InvalidOrientationError unless VALID_ORIENTATIONS.include?(orientation)
+    return unless table.within_bounds?(x, y)
+    return unless VALID_ORIENTATIONS.include?(orientation)
 
     @x = x
     @y = y

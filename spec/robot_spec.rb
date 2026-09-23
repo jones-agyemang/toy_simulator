@@ -7,30 +7,33 @@ require_relative '../lib/robot'
 RSpec.describe Robot do
   subject(:robot) { described_class.new }
 
+  let(:width) { 5 }
+  let(:height) { 5 }
+  let(:table) { Table.new(width, height) }
+
   describe '#place' do
     context 'when initially placed' do
-      context 'when outside the confines of the board' do
-        it 'raises an invalid move error' do
-          expect { robot.place(x: 5, y: 5, orientation: 'NORTH') }.to raise_error(InvalidMoveError)
+      context 'when outside the confines of the table' do
+        it 'ignores placing the robot' do
+          robot.place(x: 5, y: 5, orientation: 'NORTH')
+
+          expect(robot.position).to eq({ x: nil, y: nil, orientation: nil })
         end
       end
 
-      context 'when within the confines of the board' do
-        it 'positions it on the board' do
-          initial_placement = { x: 0, y: 0, orientation: 'NORTH' }
-          robot.place(**initial_placement)
+      context 'when within the confines of the table' do
+        it 'positions it on the table' do
+          robot.place(x: 0, y: 0, orientation: 'NORTH')
 
-          expected_position = initial_placement
-
-          expect(robot.position).to eq(expected_position)
+          expect(robot.position).to eq({ x: 0, y: 0, orientation: 'NORTH' })
         end
       end
 
       context 'with invalid orientation' do
         it 'raises an orientation error' do
-          expect do
-            robot.place(x: 0, y: 0, orientation: 'ICEBERG')
-          end.to raise_error(InvalidOrientationError)
+          robot.place(x: 0, y: 0, orientation: 'ICEBERG')
+
+          expect(robot.position).to eq({ x: nil, y: nil, orientation: nil })
         end
       end
     end
