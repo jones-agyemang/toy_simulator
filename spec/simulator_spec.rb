@@ -13,10 +13,14 @@ RSpec.describe Simulator do
       let(:commands) { %w[MOVE REPORT] }
       let(:robot) { instance_spy(Robot) }
 
-      it 'discards all commands' do
-        simulator.run
+      before { simulator.run }
 
+      it 'does not invoke move' do
         expect(robot).not_to have_received(:move)
+      end
+
+      it 'does not invoke report' do
+        expect(robot).not_to have_received(:report)
       end
     end
 
