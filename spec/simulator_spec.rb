@@ -3,6 +3,7 @@
 require_relative '../lib/simulator'
 
 RSpec.describe Simulator do
+  let(:robot) { Robot.new }
   subject(:simulator) { described_class.new(commands, robot) }
 
   describe '#run' do
@@ -20,7 +21,6 @@ RSpec.describe Simulator do
 
     context 'when command has a valid PLACE command' do
       context 'when PLACE command is at the beginning of the command sequence' do
-        let(:robot) { Robot.new }
         let(:commands) do
           [
             'PLACE 0,0,NORTH',
@@ -38,7 +38,6 @@ RSpec.describe Simulator do
     end
 
     context 'when PLACE command is within the command sequence' do
-      let(:robot) { Robot.new }
       let(:commands) do
         [
           'LEFT',
@@ -54,6 +53,26 @@ RSpec.describe Simulator do
         simulation_output = simulator.run
 
         expect(simulation_output).to eq(['0,0,WEST'])
+      end
+    end
+
+    describe 'complex scenario' do
+      let(:commands) do
+        [
+          'PLACE 1,2,EAST',
+          'MOVE',
+          'MOVE',
+          'LEFT',
+          'MOVE',
+          'REPORT'
+        ]
+      end
+
+      it 'successfully executes commands' do
+        simulation_output = simulator.run
+        expected_simulation_output = ['3,3,NORTH']
+
+        expect(simulation_output).to eq(expected_simulation_output)
       end
     end
   end
