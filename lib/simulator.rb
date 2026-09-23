@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../lib/commands/place_command'
+
 # Runs the given
 class Simulator
   attr_reader :commands, :robot
@@ -16,9 +18,7 @@ class Simulator
       cmd, args = command.split
 
       case cmd
-      when 'PLACE'
-        x, y, orientation = args.split(',')
-        robot.place(x: x.to_i, y: y.to_i, orientation:)
+      when 'PLACE' then PlaceCommand.call(robot, args)
       when 'MOVE'
         next unless robot.placed?
 

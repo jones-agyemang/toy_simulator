@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'pry'
 require_relative '../lib/robot'
 require_relative '../lib/simulator'
 
@@ -53,9 +54,7 @@ RSpec.describe Simulator do
       end
 
       it 'only executes all subsequent commands after placing the robot' do
-        simulation_output = simulator.run
-
-        expect(simulation_output).to eq(['0,0,WEST'])
+        expect(simulator.run).to eq(['0,0,WEST'])
       end
     end
 
@@ -72,10 +71,7 @@ RSpec.describe Simulator do
       end
 
       it 'successfully executes commands' do
-        simulation_output = simulator.run
-        expected_simulation_output = ['3,3,NORTH']
-
-        expect(simulation_output).to eq(expected_simulation_output)
+        expect(simulator.run).to eq(['3,3,NORTH'])
       end
     end
   end

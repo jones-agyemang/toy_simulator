@@ -33,7 +33,7 @@ RSpec.describe Robot do
       end
 
       context 'with invalid orientation' do
-        it 'raises an orientation error' do
+        it 'does not position it on the table' do
           robot.place(x: 0, y: 0, orientation: 'ICEBERG')
 
           expect(robot.position).to eq({ x: nil, y: nil, orientation: nil })

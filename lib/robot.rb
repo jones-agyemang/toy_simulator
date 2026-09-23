@@ -8,13 +8,13 @@ require_relative '../lib/move/west'
 
 # Bot that facilitates exploration
 class Robot
-  VALID_ORIENTATIONS = %w[NORTH SOUTH EAST WEST].freeze
   ORIENTATION_MAPPING = {
     'NORTH' => 'WEST',
     'WEST' => 'SOUTH',
     'SOUTH' => 'EAST',
     'EAST' => 'NORTH'
   }.freeze
+  VALID_ORIENTATIONS = ORIENTATION_MAPPING.keys.freeze
 
   attr_accessor :x, :y, :orientation, :placed
   attr_reader :table
@@ -38,9 +38,7 @@ class Robot
     self.orientation = orientation
   end
 
-  def placed?
-    placed
-  end
+  def placed? = placed
 
   def report
     return '' if position.values.any?(&:nil?)
