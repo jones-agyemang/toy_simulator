@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class InvalidMoveError < StandardError; end
-class InvalidOrientationError < StandardError; end
+require_relative '../lib/errors/invalid_move_error'
+require_relative '../lib/errors/invalid_orientation_error'
 
 # Bot that facilitates exploration
 class Robot
