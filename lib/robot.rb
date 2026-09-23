@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 require_relative '../lib/table'
+require_relative '../lib/move/north'
+require_relative '../lib/move/south'
+require_relative '../lib/move/east'
+require_relative '../lib/move/west'
 
 # Bot that facilitates exploration
 class Robot
@@ -12,10 +16,14 @@ class Robot
     'EAST' => 'NORTH'
   }.freeze
 
+  attr_accessor :x, :y, :orientation
   attr_reader :table
 
   def initialize(table = Table.new)
     @table = table
+    @x = nil
+    @y = nil
+    @orientation = nil
   end
 
   # rubocop:disable-next Naming/MethodParameterName
@@ -23,27 +31,23 @@ class Robot
     return unless table.within_bounds?(x, y)
     return unless VALID_ORIENTATIONS.include?(orientation)
 
-    @x = x
-    @y = y
-    @orientation = orientation
+    self.x = x
+    self.y = y
+    self.orientation = orientation
   end
 
   def report
     return '' if position.values.any?(&:nil?)
 
-    [@x, @y, @orientation].join(',')
+    [x, y, orientation].join(',')
   end
 
   def move
     case @orientation
-    when 'NORTH'
-      @y += 1 if table.within_bounds?(@x, @y + 1)
-    when 'SOUTH'
-      @y -= 1 if table.within_bounds?(@x, @y - 1)
-    when 'EAST'
-      @x += 1 if table.within_bounds?(@x + 1, @y)
-    when 'WEST'
-      @x -= 1 if table.within_bounds?(@x - 1, @y)
+    when 'NORTH' then Move::North.call(self)
+    when 'SOUTH' then Move::South.call(self)
+    when 'EAST' then Move::East.call(self)
+    when 'WEST' then Move::West.call(self)
     end
   end
 

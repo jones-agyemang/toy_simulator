@@ -60,13 +60,24 @@ RSpec.describe Robot do
 
   describe '#move' do
     context 'when moving out of bounds' do
-      it 'prohibits movement' do
-        starting_position = { x: 0, y: 0, orientation: 'SOUTH' }
+      where(:initial_x, :initial_y, :initial_orientation) do
+        [
+          [0, 0, 'SOUTH'],
+          [4, 4, 'NORTH'],
+          [0, 0, 'WEST'],
+          [4, 4, 'EAST']
+        ]
+      end
 
-        robot.place(**starting_position)
-        robot.move
+      with_them do
+        it 'prohibits movement' do
+          starting_position = { x: initial_x, y: initial_y, orientation: initial_orientation }
 
-        expect(robot.position).to eq(starting_position)
+          robot.place(**starting_position)
+          robot.move
+
+          expect(robot.position).to eq(starting_position)
+        end
       end
     end
 
