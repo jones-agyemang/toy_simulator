@@ -7,6 +7,7 @@ gem 'pry'
 
 group :test do
   gem 'rspec'
+  gem 'rspec-parameterized'
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
 end
