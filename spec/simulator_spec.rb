@@ -11,7 +11,7 @@ RSpec.describe Simulator do
 
   describe '#run' do
     context 'when command set has no valid PLACE command' do
-      let(:commands) { %w[MOVE REPORT] }
+      let(:commands) { %w[MOVE LEFT RIGHT REPORT] }
       let(:robot) { instance_spy(Robot, placed?: false) }
 
       before { simulator.run }
@@ -22,6 +22,14 @@ RSpec.describe Simulator do
 
       it 'does not invoke report' do
         expect(robot).not_to have_received(:report)
+      end
+
+      it 'does not invoke left' do
+        expect(robot).not_to have_received(:left)
+      end
+
+      it 'does not invoke right' do
+        expect(robot).not_to have_received(:right)
       end
     end
 
@@ -55,6 +63,20 @@ RSpec.describe Simulator do
 
       it 'only executes all subsequent commands after placing the robot' do
         expect(simulator.run).to eq(['0,0,WEST'])
+      end
+    end
+
+    context 'when RIGHT follows a valid PLACE command' do
+      let(:commands) do
+        [
+          'PLACE 0,0,NORTH',
+          'RIGHT',
+          'REPORT'
+        ]
+      end
+
+      it 'rotates the robot to the right' do
+        expect(simulator.run).to eq(['0,0,EAST'])
       end
     end
 

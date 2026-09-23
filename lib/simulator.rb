@@ -2,6 +2,8 @@
 
 require_relative '../lib/commands/place_command'
 require_relative '../lib/commands/move_command'
+require_relative '../lib/commands/left_command'
+require_relative '../lib/commands/right_command'
 
 # Runs the given
 class Simulator
@@ -27,7 +29,11 @@ class Simulator
       when 'LEFT'
         next unless robot.placed?
 
-        robot.left
+        LeftCommand.call(robot)
+      when 'RIGHT'
+        next unless robot.placed?
+
+        RightCommand.call(robot)
       when 'REPORT'
         next unless robot.placed?
 

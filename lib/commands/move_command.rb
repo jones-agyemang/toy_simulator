@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 
+require_relative '../../lib/commands/base'
+
 # Moves robot in direction of orientation
-class MoveCommand
+class MoveCommand < BaseCommand
   attr_reader :robot
-
-  def initialize(robot)
-    @robot = robot
-  end
-
-  def self.call(robot)
-    new(robot).call
-  end
 
   def call
     robot.move
