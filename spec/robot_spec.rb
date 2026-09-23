@@ -16,10 +16,13 @@ RSpec.describe Robot do
       end
 
       context 'when within the confines of the board' do
-        it 'positions it with the right orientation' do
-          robot.place(x: 0, y: 0, orientation: 'NORTH')
+        it 'positions it on the board' do
+          initial_placement = { x: 0, y: 0, orientation: 'NORTH' }
+          robot.place(**initial_placement)
 
-          expect(robot.report).to eq('0,0,NORTH')
+          expected_position = initial_placement
+
+          expect(robot.position).to eq(expected_position)
         end
       end
 
@@ -35,10 +38,12 @@ RSpec.describe Robot do
 
   describe '#report' do
     context 'when robot is unplaced' do
-      it 'should have nothing to report' do
+      it 'has nothing to report' do
         expect(robot.report).to eq('')
       end
     end
+
+    # TODO: Add spec for when Robot is placed
   end
 
   describe '#move' do
@@ -49,7 +54,7 @@ RSpec.describe Robot do
         robot.place(**starting_position)
         robot.move
 
-        expect(robot.report).to eq('0,0,SOUTH')
+        expect(robot.position).to eq({ x: 0, y: 0, orientation: 'SOUTH' })
       end
     end
 
@@ -69,7 +74,7 @@ RSpec.describe Robot do
           robot.place(**starting_position)
           robot.move
 
-          expect(robot.report).to eq("#{expected_x},#{expected_y},#{facing}")
+          expect(robot.position).to eq({ x: expected_x, y: expected_y, orientation: facing })
         end
       end
     end
@@ -79,93 +84,49 @@ RSpec.describe Robot do
     let(:starting_position) { { x: 0, y: 0, orientation: } }
 
     describe '#left' do
-      context 'when facing NORTH' do
-        let(:orientation) { 'NORTH' }
-
-        it 'alters orientation to WEST' do
-          robot.place(**starting_position)
-          robot.left
-
-          expect(robot.report).to eq('0,0,WEST')
-        end
+      where(:initial_orientation, :final_orientation) do
+        [
+          %w[NORTH WEST],
+          %w[WEST SOUTH],
+          %w[SOUTH EAST],
+          %w[EAST NORTH]
+        ]
       end
 
-      context 'when facing WEST' do
-        let(:orientation) { 'WEST' }
+      with_them do
+        context 'when facing initial orientation' do
+          let(:orientation) { initial_orientation }
 
-        it 'alters orientation to SOUTH' do
-          robot.place(**starting_position)
-          robot.left
+          it 'alters orientation to final orientation' do
+            robot.place(**starting_position)
+            robot.left
 
-          expect(robot.report).to eq('0,0,SOUTH')
-        end
-      end
-
-      context 'when facing SOUTH' do
-        let(:orientation) { 'SOUTH' }
-
-        it 'alters orientation to EAST' do
-          robot.place(**starting_position)
-          robot.left
-
-          expect(robot.report).to eq('0,0,EAST')
-        end
-      end
-
-      context 'when facing EAST' do
-        let(:orientation) { 'EAST' }
-
-        it 'alters orientation to NORTH' do
-          robot.place(**starting_position)
-          robot.left
-
-          expect(robot.report).to eq('0,0,NORTH')
+            expect(robot.position).to eq({ x: 0, y: 0, orientation: final_orientation })
+          end
         end
       end
     end
 
     describe '#right' do
-      context 'when facing NORTH' do
-        let(:orientation) { 'NORTH' }
-
-        it 'alters orientation to EAST' do
-          robot.place(**starting_position)
-          robot.right
-
-          expect(robot.report).to eq('0,0,EAST')
-        end
+      where(:initial_orientation, :final_orientation) do
+        [
+          %w[NORTH EAST],
+          %w[EAST SOUTH],
+          %w[SOUTH WEST],
+          %w[WEST NORTH]
+        ]
       end
 
-      context 'when facing EAST' do
-        let(:orientation) { 'EAST' }
+      with_them do
+        context 'when facing initial orientation' do
+          let(:orientation) { initial_orientation }
 
-        it 'alters orientation to SOUTH' do
-          robot.place(**starting_position)
-          robot.right
+          it 'alters orientation to final orientation' do
+            robot.place(**starting_position)
+            robot.right
 
-          expect(robot.report).to eq('0,0,SOUTH')
-        end
-      end
-
-      context 'when facing SOUTH' do
-        let(:orientation) { 'SOUTH' }
-
-        it 'alters orientation to WEST' do
-          robot.place(**starting_position)
-          robot.right
-
-          expect(robot.report).to eq('0,0,WEST')
-        end
-      end
-
-      context 'when facing WEST' do
-        let(:orientation) { 'WEST' }
-
-        it 'alters orientation to NORTH' do
-          robot.place(**starting_position)
-          robot.right
-
-          expect(robot.report).to eq('0,0,NORTH')
+            expect(robot.position).to eq({ x: 0, y: 0, orientation: final_orientation })
+          end
         end
       end
     end
