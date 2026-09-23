@@ -13,11 +13,11 @@ class Robot
     'EAST' => 'NORTH'
   }.freeze
 
-  attr_reader :board
+  attr_reader :table
   attr_accessor :position
 
-  def initialize
-    @board = [5, 5]
+  def initialize(table = [5, 5])
+    @table = table
     @position = { x: nil, y: nil, orientation: nil }
   end
 
@@ -40,13 +40,13 @@ class Robot
   def move
     case position[:orientation]
     when 'NORTH'
-      position[:y] += 1 if (position[:y] + 1).between?(0, board[1] - 1)
+      position[:y] += 1 if (position[:y] + 1).between?(0, table[1] - 1)
     when 'SOUTH'
-      position[:y] -= 1 if (position[:y] - 1).between?(0, board[1] - 1)
+      position[:y] -= 1 if (position[:y] - 1).between?(0, table[1] - 1)
     when 'EAST'
-      position[:x] += 1 if (position[:x] + 1).between?(0, board[0] - 1)
+      position[:x] += 1 if (position[:x] + 1).between?(0, table[0] - 1)
     when 'WEST'
-      position[:x] -= 1 if (position[:x] - 1).between?(0, board[0] - 1)
+      position[:x] -= 1 if (position[:x] - 1).between?(0, table[0] - 1)
     end
   end
 
@@ -61,6 +61,6 @@ class Robot
   private
 
   def within_bounds?(position, axis)
-    position.negative? || position < (@board[axis] - 1)
+    position.negative? || position < (@table[axis] - 1)
   end
 end
