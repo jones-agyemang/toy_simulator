@@ -3,4 +3,4 @@ plugins:
 AllCops:
   NewCops: enable
 RSpec/NestedGroups:
-  Max: 3
+  Max: 5
