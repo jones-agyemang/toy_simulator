@@ -24,6 +24,8 @@ class Simulator
         robot.place(x: x.to_i, y: y.to_i, orientation: )
       when 'MOVE'
         robot.move
+      when 'LEFT'
+        robot.left
       when 'REPORT'
         output << robot.report
       end

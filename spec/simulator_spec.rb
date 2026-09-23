@@ -19,7 +19,8 @@ RSpec.describe Simulator do
     end
 
     context 'when command has a valid PLACE command' do
-      context 'when PLACE at the beginning of the command sequence' do
+      context 'when PLACE command is at the beginning of the command sequence' do
+        let(:robot) { Robot.new }
         let(:commands) do
           [
             'PLACE 0,0,NORTH',
@@ -27,13 +28,32 @@ RSpec.describe Simulator do
             'REPORT'
           ]
         end
-        let(:robot) { Robot.new }
 
         it 'successfully executes all subsequent commands' do
           simulation_output = simulator.run
 
           expect(simulation_output).to eq(['0,1,NORTH'])
         end
+      end
+    end
+
+    context 'when PLACE command is within the command sequence' do
+      let(:robot) { Robot.new }
+      let(:commands) do
+        [
+          'LEFT',
+          'MOVE',
+          'REPORT',
+          'PLACE 0,0,NORTH',
+          'LEFT',
+          'REPORT'
+        ]
+      end
+
+      it 'only executes all subsequent commands after placing the robot' do
+        simulation_output = simulator.run
+
+        expect(simulation_output).to eq(['0,0,WEST'])
       end
     end
   end
