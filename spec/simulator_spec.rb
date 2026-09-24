@@ -158,6 +158,22 @@ RSpec.describe Simulator do
       end
     end
 
+    context 'when an invalid boundary move is followed by valid commands' do
+      let(:commands) do
+        [
+          'PLACE 0,4,NORTH',
+          'MOVE',
+          'RIGHT',
+          'MOVE',
+          'REPORT'
+        ]
+      end
+
+      it 'ignores the invalid move and executes subsequent commands' do
+        expect(simulator.output).to eq(['1,4,EAST'])
+      end
+    end
+
     context 'when RIGHT follows a valid PLACE command' do
       let(:commands) do
         [
