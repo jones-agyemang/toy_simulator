@@ -15,6 +15,8 @@ RSpec.describe PlaceCommand do
     context 'with malformed syntax' do
       where(:args) do
         [
+          nil,
+          '',
           '0',
           '0,0',
           '0,0,',

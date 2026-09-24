@@ -21,11 +21,11 @@ class PlaceCommand < BaseCommand
   private
 
   def build_args(arg_value)
-    arg_value.split(',')
+    arg_value&.split(',')
   end
 
   def valid_args?
-    valid_numbers? && valid_arg_count? && valid_orientation?
+    args && valid_numbers? && valid_arg_count? && valid_orientation?
   end
 
   def valid_numbers?
