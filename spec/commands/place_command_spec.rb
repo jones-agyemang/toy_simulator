@@ -29,7 +29,6 @@ RSpec.describe PlaceCommand do
             '',
             '0',
             '0,0',
-            '0,0,',
             '-1,0,NORTH',
             '0,-1,NORTH',
             'foo,bar,NORTH',

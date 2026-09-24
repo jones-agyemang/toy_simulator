@@ -27,7 +27,7 @@ class Simulator
 
   def run
     @output = commands.filter_map do |command|
-      cmd, args = command.split
+      cmd, args = command.strip.split(/\s+/, 2)
       cmd_class = COMMAND_MAP[cmd]
 
       next unless cmd_class

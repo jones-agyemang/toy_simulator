@@ -128,6 +128,21 @@ RSpec.describe Simulator do
       end
     end
 
+    context 'when PLACE command carries extraneous arguments' do
+      let(:commands) do
+        [
+          'PLACE 0,0,NORTH xarg',
+          'PLACE 0,4,EAST,',
+          'MOVE',
+          'REPORT'
+        ]
+      end
+
+      it 'ignores commands with extra args' do
+        expect(simulator.output).to be_empty
+      end
+    end
+
     context 'when command contains blank lines' do
       let(:commands) do
         [
