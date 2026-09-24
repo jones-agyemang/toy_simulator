@@ -98,6 +98,21 @@ RSpec.describe Simulator do
       end
     end
 
+    context 'with multiple REPORT commands' do
+      let(:commands) do
+        [
+          'PLACE 0,0,NORTH',
+          'MOVE',
+          'REPORT',
+          'REPORT'
+        ]
+      end
+
+      it 'produces multiple outputs' do
+        expect(simulator.output).to eq(['0,1,NORTH', '0,1,NORTH'])
+      end
+    end
+
     context 'when RIGHT follows a valid PLACE command' do
       let(:commands) do
         [
