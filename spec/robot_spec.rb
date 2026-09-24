@@ -15,7 +15,6 @@ RSpec.describe Robot do
     context 'when initially placed' do
       context 'when outside the confines of the table' do
         let(:width) { 3 }
-        let(:dimensions) { 3 }
 
         it 'ignores placing the robot' do
           robot.place(x: 5, y: 5, orientation: 'NORTH')
@@ -34,9 +33,9 @@ RSpec.describe Robot do
 
       context 'with invalid orientation' do
         it 'does not position it on the table' do
-          robot.place(x: 0, y: 0, orientation: 'ICEBERG')
-
-          expect(robot.position).to eq({ x: nil, y: nil, orientation: nil })
+          expect do
+            robot.place(x: 0, y: 0, orientation: 'ICEBERG')
+          end.not_to change(robot, :position)
         end
       end
     end

@@ -30,8 +30,6 @@ RSpec.describe PlaceCommand do
             '0',
             '0,0',
             '0,0,',
-            '0,0,nil',
-            '0,0,0',
             '-1,0,NORTH',
             '0,-1,NORTH',
             'foo,bar,NORTH',
@@ -56,7 +54,7 @@ RSpec.describe PlaceCommand do
     end
   end
 
-  describe '.produces_report?' do
+  describe '.produces_output?' do
     it 'produces no output' do
       expect(described_class).not_to be_produces_output
     end

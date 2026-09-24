@@ -9,8 +9,7 @@ require_relative 'commands/report_command'
 
 # Runs the given
 class Simulator
-  attr_accessor :commands, :robot
-  attr_reader :output
+  attr_reader :commands, :robot, :output
 
   COMMAND_MAP = {
     'PLACE' => PlaceCommand,

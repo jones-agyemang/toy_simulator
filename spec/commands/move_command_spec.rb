@@ -7,7 +7,7 @@ require_relative 'shared_examples/argumentless_command'
 RSpec.describe MoveCommand do
   it_behaves_like 'an argumentless command', :move
 
-  describe '.produces_report?' do
+  describe '.produces_output?' do
     it 'produces no output' do
       expect(described_class).not_to be_produces_output
     end

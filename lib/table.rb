@@ -2,7 +2,7 @@
 
 # Movement environment
 class Table
-  attr_accessor :width, :height
+  attr_reader :width, :height
 
   def initialize(width = 5, height = 5)
     @width = width

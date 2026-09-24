@@ -4,8 +4,6 @@ require_relative 'base'
 
 # Executes PLACE command
 class PlaceCommand < BaseCommand
-  VALID_ORIENTATIONS = %w[NORTH SOUTH EAST WEST].freeze
-
   def initialize(robot, args)
     super
     @args = build_args(args)
@@ -25,7 +23,7 @@ class PlaceCommand < BaseCommand
   end
 
   def valid_args?
-    args && valid_numbers? && valid_arg_count? && valid_orientation?
+    args && valid_numbers? && valid_arg_count?
   end
 
   def valid_numbers?
@@ -36,9 +34,5 @@ class PlaceCommand < BaseCommand
 
   def valid_arg_count?
     args.count == 3
-  end
-
-  def valid_orientation?
-    VALID_ORIENTATIONS.include?(args[2])
   end
 end
