@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 require_relative '../lib/robot'
 require_relative '../lib/simulator'
 
@@ -13,17 +12,37 @@ RSpec.describe Simulator do
 
   describe '#run' do
     context 'with invalid commands' do
-      let(:commands) do
-        [
-          'PLACE 0,0,NORTH',
-          'FLY',
-          'FIGHT',
-          'REPORT'
-        ]
+      context 'when command not in valid command set' do
+        let(:commands) do
+          [
+            'PLACE 0,0,NORTH',
+            'FLY',
+            'FIGHT',
+            'REPORT'
+          ]
+        end
+
+        it 'executes valid commands and ignores invalid ones' do
+          expect(simulator.output).to eq(['0,0,NORTH'])
+        end
       end
 
-      it 'executes valid commands and ignores invalid ones' do
-        expect(simulator.output).to eq(['0,0,NORTH'])
+      context 'when command in valid command set' do
+        context 'when malford' do
+          let(:commands) do
+            [
+              'PLACE 0,0,NORTH',
+              'PLACE',
+              'MOVE',
+              'MOVE OVER',
+              'REPORT'
+            ]
+          end
+
+          it 'ignores malformed commands' do
+            expect(simulator.output).to eq(['0,1,NORTH'])
+          end
+        end
       end
     end
 
