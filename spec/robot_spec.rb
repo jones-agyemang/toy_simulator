@@ -45,7 +45,7 @@ RSpec.describe Robot do
   describe '#report' do
     context 'when robot is unplaced' do
       it 'has nothing to report' do
-        expect(robot.report).to eq('')
+        expect(robot.report).to be_nil
       end
     end
 

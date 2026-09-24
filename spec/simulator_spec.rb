@@ -12,24 +12,19 @@ RSpec.describe Simulator do
   describe '#run' do
     context 'when command set has no valid PLACE command' do
       let(:commands) { %w[MOVE LEFT RIGHT REPORT] }
-      let(:robot) { instance_spy(Robot, placed?: false) }
 
       before { simulator.run }
 
-      it 'does not invoke move' do
-        expect(robot).not_to have_received(:move)
+      it 'leaves the robot unplaced' do
+        expect(robot).not_to be_placed
       end
 
-      it 'does not invoke report' do
-        expect(robot).not_to have_received(:report)
+      it 'produces no output' do
+        expect(simulator.run).to eq([])
       end
 
-      it 'does not invoke left' do
-        expect(robot).not_to have_received(:left)
-      end
-
-      it 'does not invoke right' do
-        expect(robot).not_to have_received(:right)
+      it 'does not change position or orientation of the robot' do
+        expect(robot.position).to eq({ x: nil, y: nil, orientation: nil })
       end
     end
 

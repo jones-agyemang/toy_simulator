@@ -41,7 +41,7 @@ class Robot
   def placed? = placed
 
   def report
-    return '' if position.values.any?(&:nil?)
+    return unless placed?
 
     [x, y, orientation].join(',')
   end
@@ -56,10 +56,14 @@ class Robot
   end
 
   def left
+    return unless placed?
+
     @orientation = ORIENTATION_MAPPING.fetch(@orientation)
   end
 
   def right
+    return unless placed?
+
     @orientation = ORIENTATION_MAPPING.invert.fetch(@orientation)
   end
 

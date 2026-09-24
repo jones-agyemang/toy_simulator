@@ -2,9 +2,9 @@
 
 require_relative '../../lib/commands/base'
 
-# Moves robot in direction of orientation
-class MoveCommand < BaseCommand
+# Reports the robot's current position
+class ReportCommand < BaseCommand
   def call
-    robot.move
+    robot.report
   end
 end

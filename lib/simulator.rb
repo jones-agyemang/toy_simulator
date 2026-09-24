@@ -7,40 +7,28 @@ require_relative '../lib/commands/right_command'
 
 # Runs the given
 class Simulator
-  attr_reader :commands, :robot
+  attr_reader :commands, :robot, :output
 
   def initialize(commands, robot)
     @commands = commands
     @robot = robot
+    @output = []
   end
 
   def run
-    output = []
-
     commands.each do |command|
       cmd, args = command.split
 
       case cmd
       when 'PLACE' then PlaceCommand.call(robot, args)
-      when 'MOVE'
-        next unless robot.placed?
-
-        MoveCommand.call(robot)
-      when 'LEFT'
-        next unless robot.placed?
-
-        LeftCommand.call(robot)
-      when 'RIGHT'
-        next unless robot.placed?
-
-        RightCommand.call(robot)
+      when 'MOVE' then MoveCommand.call(robot)
+      when 'LEFT' then LeftCommand.call(robot)
+      when 'RIGHT' then RightCommand.call(robot)
       when 'REPORT'
-        next unless robot.placed?
-
-        output << robot.report
+        report = ReportCommand.call(robot)
+        output << report unless report.nil?
       end
     end
-
     output
   end
 end
