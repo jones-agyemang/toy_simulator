@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'robot'
 require_relative 'commands/place_command'
 require_relative 'commands/move_command'
 require_relative 'commands/left_command'
