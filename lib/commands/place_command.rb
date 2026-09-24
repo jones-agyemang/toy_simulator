@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'base'
+
 # Executes PLACE command
 class PlaceCommand < BaseCommand
   VALID_ORIENTATIONS = %w[NORTH SOUTH EAST WEST].freeze

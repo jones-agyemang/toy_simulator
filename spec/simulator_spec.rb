@@ -9,6 +9,8 @@ RSpec.describe Simulator do
 
   let(:robot) { Robot.new }
 
+  before { simulator.run }
+
   describe '#run' do
     context 'with invalid commands' do
       let(:commands) do
@@ -21,21 +23,19 @@ RSpec.describe Simulator do
       end
 
       it 'executes valid commands and ignores invalid ones' do
-        expect(simulator.run).to eq(['0,0,NORTH'])
+        expect(simulator.output).to eq(['0,0,NORTH'])
       end
     end
 
     context 'when command set has no valid PLACE command' do
       let(:commands) { %w[MOVE LEFT RIGHT REPORT] }
 
-      before { simulator.run }
-
       it 'leaves the robot unplaced' do
         expect(robot).not_to be_placed
       end
 
       it 'produces no output' do
-        expect(simulator.run).to eq([])
+        expect(simulator.output).to eq([])
       end
 
       it 'does not change position or orientation of the robot' do
@@ -54,7 +54,7 @@ RSpec.describe Simulator do
         end
 
         it 'successfully executes all subsequent commands' do
-          expect(simulator.run).to eq(['0,1,NORTH'])
+          expect(simulator.output).to eq(['0,1,NORTH'])
         end
       end
     end
@@ -72,7 +72,7 @@ RSpec.describe Simulator do
       end
 
       it 'only executes all subsequent commands after placing the robot' do
-        expect(simulator.run).to eq(['0,0,WEST'])
+        expect(simulator.output).to eq(['0,0,WEST'])
       end
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Simulator do
       end
 
       it 'rotates the robot to the right' do
-        expect(simulator.run).to eq(['0,0,EAST'])
+        expect(simulator.output).to eq(['0,0,EAST'])
       end
     end
 
@@ -103,7 +103,7 @@ RSpec.describe Simulator do
       end
 
       it 'successfully executes commands' do
-        expect(simulator.run).to eq(['3,3,NORTH'])
+        expect(simulator.output).to eq(['3,3,NORTH'])
       end
     end
   end

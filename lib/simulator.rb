@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../lib/commands/place_command'
-require_relative '../lib/commands/move_command'
-require_relative '../lib/commands/left_command'
-require_relative '../lib/commands/right_command'
+require_relative 'commands/place_command'
+require_relative 'commands/move_command'
+require_relative 'commands/left_command'
+require_relative 'commands/right_command'
+require_relative 'commands/report_command'
 
 # Runs the given
 class Simulator
@@ -26,14 +27,12 @@ class Simulator
   def run
     commands.each do |command|
       cmd, args = command.split
+      cmd_class = COMMAND_MAP[cmd]
 
-      begin
-        result = COMMAND_MAP.fetch(cmd)&.call(robot, args)
-        output << result unless result.nil?
-      rescue KeyError
-        # no-op
-      end
+      next unless cmd_class
+
+      result = cmd_class.call(robot, args)
+      @output << result if cmd == 'REPORT' && result
     end
-    output
   end
 end
