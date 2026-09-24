@@ -8,7 +8,8 @@ require_relative 'commands/report_command'
 
 # Runs the given
 class Simulator
-  attr_reader :commands, :robot, :output
+  attr_accessor :commands, :robot
+  attr_reader :output
 
   COMMAND_MAP = {
     'PLACE' => PlaceCommand,
@@ -17,9 +18,8 @@ class Simulator
     'RIGHT' => RightCommand,
     'REPORT' => ReportCommand
   }.freeze
-  REPORTABLE_CMDS = %w[REPORT].freeze
 
-  def initialize(commands, robot)
+  def initialize(commands, robot = Robot.new)
     @commands = commands
     @robot = robot
     @output = []
