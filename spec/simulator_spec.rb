@@ -113,6 +113,21 @@ RSpec.describe Simulator do
       end
     end
 
+    context 'when valid PLACE command is followed by an invalid one' do
+      let(:commands) do
+        [
+          'PLACE 0,0,NORTH',
+          'MOVE',
+          'PLACE',
+          'REPORT'
+        ]
+      end
+
+      it 'does not relocate the robot' do
+        expect(simulator.output).to eq(['0,1,NORTH'])
+      end
+    end
+
     context 'when RIGHT follows a valid PLACE command' do
       let(:commands) do
         [
