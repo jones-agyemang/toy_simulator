@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../lib/table'
-require_relative '../lib/move/north'
-require_relative '../lib/move/south'
-require_relative '../lib/move/east'
-require_relative '../lib/move/west'
 
 # Bot that facilitates exploration
 class Robot
@@ -16,8 +12,14 @@ class Robot
   }.freeze
   VALID_ORIENTATIONS = ORIENTATION_MAPPING.keys.freeze
 
-  attr_accessor :x, :y, :orientation, :placed
-  attr_reader :table
+  MOVEMENT_MAPPING = {
+    'NORTH' => [0, 1],
+    'SOUTH' => [0, -1],
+    'EAST' => [1, 0],
+    'WEST' => [-1, 0]
+  }.freeze
+
+  attr_reader :x, :y, :orientation, :placed, :table
 
   def initialize(table = Table.new)
     @table = table
@@ -32,10 +34,10 @@ class Robot
     return unless table.within_bounds?(x, y)
     return unless VALID_ORIENTATIONS.include?(orientation)
 
-    self.placed = true
-    self.x = x
-    self.y = y
-    self.orientation = orientation
+    @placed = true
+    @x = x
+    @y = y
+    @orientation = orientation
   end
 
   def placed? = placed
@@ -47,12 +49,14 @@ class Robot
   end
 
   def move
-    case @orientation
-    when 'NORTH' then Move::North.call(self)
-    when 'SOUTH' then Move::South.call(self)
-    when 'EAST' then Move::East.call(self)
-    when 'WEST' then Move::West.call(self)
-    end
+    return unless placed?
+
+    x_axis, y_axis = MOVEMENT_MAPPING[orientation]
+
+    return unless table.within_bounds?(@x + x_axis, @y + y_axis)
+
+    @x += x_axis
+    @y += y_axis
   end
 
   def left
