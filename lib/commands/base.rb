@@ -12,4 +12,6 @@ class BaseCommand
   def self.call(robot, args = nil)
     new(robot, args).call
   end
+
+  def self.produces_output? = false
 end

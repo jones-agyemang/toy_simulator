@@ -10,12 +10,6 @@ require_relative 'commands/report_command'
 class Simulator
   attr_reader :commands, :robot, :output
 
-  def initialize(commands, robot)
-    @commands = commands
-    @robot = robot
-    @output = []
-  end
-
   COMMAND_MAP = {
     'PLACE' => PlaceCommand,
     'MOVE' => MoveCommand,
@@ -23,16 +17,23 @@ class Simulator
     'RIGHT' => RightCommand,
     'REPORT' => ReportCommand
   }.freeze
+  REPORTABLE_CMDS = %w[REPORT].freeze
+
+  def initialize(commands, robot)
+    @commands = commands
+    @robot = robot
+    @output = []
+  end
 
   def run
-    commands.each do |command|
+    @output = commands.filter_map do |command|
       cmd, args = command.split
       cmd_class = COMMAND_MAP[cmd]
 
       next unless cmd_class
 
       result = cmd_class.call(robot, args)
-      @output << result if cmd == 'REPORT' && result
+      result if cmd_class.produces_output?
     end
   end
 end

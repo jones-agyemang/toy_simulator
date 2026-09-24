@@ -12,4 +12,10 @@ RSpec.describe MoveCommand do
       expect(robot).to have_received(:move).once
     end
   end
+
+  describe '.produces_report?' do
+    it 'produces no output' do
+      expect(described_class).not_to be_produces_output
+    end
+  end
 end

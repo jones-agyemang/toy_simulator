@@ -7,4 +7,6 @@ class ReportCommand < BaseCommand
   def call
     robot.report
   end
+
+  def self.produces_output? = true
 end

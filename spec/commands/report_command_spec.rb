@@ -13,4 +13,10 @@ RSpec.describe ReportCommand do
       expect(robot).to have_received(:report).once
     end
   end
+
+  describe '.produces_report?' do
+    it 'produces output' do
+      expect(described_class).to be_produces_output
+    end
+  end
 end
