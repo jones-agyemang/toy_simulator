@@ -35,6 +35,9 @@ RSpec.describe Simulator do
               'PLACE',
               'MOVE',
               'MOVE OVER',
+              'REPORT UFO',
+              'LEFT TURN 5',
+              'RIGHT TURN 9',
               'REPORT'
             ]
           end

@@ -4,12 +4,27 @@ require_relative '../../lib/robot'
 require_relative '../../lib/commands/left_command'
 
 RSpec.describe LeftCommand do
-  describe '.call' do
-    it 'delegates left rotation to the robot' do
-      robot = instance_spy(Robot)
-      described_class.call(robot)
+  subject(:invoke_command!) { described_class.call(robot, args) }
 
-      expect(robot).to have_received(:left).once
+  let(:robot) { instance_spy(Robot) }
+
+  describe '.call' do
+    before { invoke_command! }
+
+    context 'with no arguments' do
+      let(:args) { nil }
+
+      it 'delegates left rotation to the robot' do
+        expect(robot).to have_received(:left).once
+      end
+    end
+
+    context 'with arguments' do
+      let(:args) { 'foo' }
+
+      it 'ignores the command' do
+        expect(robot).not_to have_received(:left)
+      end
     end
   end
 

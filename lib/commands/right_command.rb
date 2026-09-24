@@ -5,6 +5,6 @@ require_relative '../../lib/commands/base'
 # Rotates robot to the right
 class RightCommand < BaseCommand
   def call
-    robot.right
+    robot.right unless args
   end
 end

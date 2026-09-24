@@ -4,13 +4,27 @@ require_relative '../../lib/robot'
 require_relative '../../lib/commands/report_command'
 
 RSpec.describe ReportCommand do
+  subject(:invoke_command!) { described_class.call(robot, args) }
+
+  let(:robot) { instance_spy(Robot, report: '0,0,NORTH') }
+
   describe '.call' do
-    it 'delegates reporting to the robot' do
-      robot = instance_spy(Robot, report: '0,0,NORTH')
+    before { invoke_command! }
 
-      described_class.call(robot)
+    context 'with no arguments' do
+      let(:args) { nil }
 
-      expect(robot).to have_received(:report).once
+      it 'delegates reporting to the robot' do
+        expect(robot).to have_received(:report).once
+      end
+    end
+
+    context 'with arguments' do
+      let(:args) { 'foo' }
+
+      it 'ignores the command' do
+        expect(robot).not_to have_received(:report)
+      end
     end
   end
 
