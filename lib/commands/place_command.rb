@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
 # Executes PLACE command
-class PlaceCommand
-  attr_reader :robot, :args
-
+class PlaceCommand < BaseCommand
   VALID_ORIENTATIONS = %w[NORTH SOUTH EAST WEST].freeze
 
   def initialize(robot, args)
-    @robot = robot
+    super
     @args = build_args(args)
-  end
-
-  def self.call(robot, args)
-    new(robot, args).call
   end
 
   def call
