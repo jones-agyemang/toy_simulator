@@ -46,7 +46,7 @@ RSpec.describe PlaceCommand do
       context 'when argument syntax is well-formed' do
         let(:args) { '0,1,NORTH' }
 
-        it 'ignores the command' do
+        it 'delegates move to robot' do
           expect(robot).to have_received(:place).with(x: 0, y: 1, orientation: 'NORTH')
         end
       end

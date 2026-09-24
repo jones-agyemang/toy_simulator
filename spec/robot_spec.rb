@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 require 'rspec-parameterized'
 require_relative '../lib/robot'
 

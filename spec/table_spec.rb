@@ -32,7 +32,7 @@ RSpec.describe Table do
       let(:width) { 10 }
       let(:height) { 10 }
 
-      it "returns 'false'" do
+      it "returns 'true'" do
         expect(table.within_bounds?(9, 9)).to be(true)
       end
     end

@@ -28,7 +28,7 @@ RSpec.describe Simulator do
       end
 
       context 'when command in valid command set' do
-        context 'when malford' do
+        context 'when malformed' do
           let(:commands) do
             [
               'PLACE 0,0,NORTH',
