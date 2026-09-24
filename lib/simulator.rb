@@ -15,18 +15,23 @@ class Simulator
     @output = []
   end
 
+  COMMAND_MAP = {
+    'PLACE' => PlaceCommand,
+    'MOVE' => MoveCommand,
+    'LEFT' => LeftCommand,
+    'RIGHT' => RightCommand,
+    'REPORT' => ReportCommand
+  }.freeze
+
   def run
     commands.each do |command|
       cmd, args = command.split
 
-      case cmd
-      when 'PLACE' then PlaceCommand.call(robot, args)
-      when 'MOVE' then MoveCommand.call(robot)
-      when 'LEFT' then LeftCommand.call(robot)
-      when 'RIGHT' then RightCommand.call(robot)
-      when 'REPORT'
-        report = ReportCommand.call(robot)
-        output << report unless report.nil?
+      begin
+        result = COMMAND_MAP.fetch(cmd)&.call(robot, args)
+        output << result unless result.nil?
+      rescue KeyError
+        # no-op
       end
     end
     output

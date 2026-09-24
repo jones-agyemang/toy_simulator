@@ -36,6 +36,7 @@ class Robot
     self.x = x
     self.y = y
     self.orientation = orientation
+    nil
   end
 
   def placed? = placed
@@ -53,18 +54,21 @@ class Robot
     when 'EAST' then Move::East.call(self)
     when 'WEST' then Move::West.call(self)
     end
+    nil
   end
 
   def left
     return unless placed?
 
     @orientation = ORIENTATION_MAPPING.fetch(@orientation)
+    nil
   end
 
   def right
     return unless placed?
 
     @orientation = ORIENTATION_MAPPING.invert.fetch(@orientation)
+    nil
   end
 
   def position

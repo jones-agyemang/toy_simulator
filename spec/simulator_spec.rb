@@ -10,6 +10,21 @@ RSpec.describe Simulator do
   let(:robot) { Robot.new }
 
   describe '#run' do
+    context 'with invalid commands' do
+      let(:commands) do
+        [
+          'PLACE 0,0,NORTH',
+          'FLY',
+          'FIGHT',
+          'REPORT'
+        ]
+      end
+
+      it 'executes valid commands and ignores invalid ones' do
+        expect(simulator.run).to eq(['0,0,NORTH'])
+      end
+    end
+
     context 'when command set has no valid PLACE command' do
       let(:commands) { %w[MOVE LEFT RIGHT REPORT] }
 
