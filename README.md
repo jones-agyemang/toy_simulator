@@ -1,9 +1,8 @@
-# Usage
-## Activate Ruby
+# Project Setup
 
-```sh
-rvm use 3.2.2
-```
+## Prerequisites
+
+- Ruby: 3.2.2 (managed via `.ruby-version`)
 
 ## Verify Ruby Version
 

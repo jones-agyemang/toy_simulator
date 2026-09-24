@@ -2,6 +2,6 @@ plugins:
   - rubocop-rspec
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.2
 RSpec/NestedGroups:
   Max: 5
