@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 require 'rspec-parameterized'
 
 require_relative '../../lib/robot'
@@ -12,28 +11,46 @@ RSpec.describe PlaceCommand do
   describe '.call' do
     let(:robot) { instance_spy(Robot) }
 
-    context 'with malformed syntax' do
-      where(:args) do
-        [
-          nil,
-          '',
-          '0',
-          '0,0',
-          '0,0,',
-          '0,0,nil',
-          '0,0,0',
-          '-1,0,NORTH',
-          '0,-1,NORTH',
-          'foo,bar,NORTH',
-          '0.5,2,NORTH'
-        ]
+    before { invoke_command! }
+
+    context 'with no arguments' do
+      let(:args) { nil }
+
+      it 'ignores the command' do
+        expect(robot).not_to have_received(:place)
+      end
+    end
+
+    context 'with arguments' do
+      context 'when argument syntax is malformed' do
+        where(:args) do
+          [
+            nil,
+            '',
+            '0',
+            '0,0',
+            '0,0,',
+            '0,0,nil',
+            '0,0,0',
+            '-1,0,NORTH',
+            '0,-1,NORTH',
+            'foo,bar,NORTH',
+            '0.5,2,NORTH'
+          ]
+        end
+
+        with_them do
+          it 'does not execute command' do
+            expect(robot).not_to have_received(:place)
+          end
+        end
       end
 
-      with_them do
-        it 'does not execute command' do
-          invoke_command!
+      context 'when argument syntax is well-formed' do
+        let(:args) { '0,1,NORTH' }
 
-          expect(robot).not_to have_received(:place)
+        it 'ignores the command' do
+          expect(robot).to have_received(:place).with(x: 0, y: 1, orientation: 'NORTH')
         end
       end
     end
