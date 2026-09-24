@@ -38,8 +38,8 @@ RSpec.describe Simulator do
         expect(simulator.output).to eq([])
       end
 
-      it 'does not change position or orientation of the robot' do
-        expect(robot.position).to eq({ x: nil, y: nil, orientation: nil })
+      it 'does not change the position of the robot' do
+        expect { simulator.run }.not_to change(robot, :position)
       end
     end
 
