@@ -12,9 +12,9 @@ RSpec.describe 'Executable interface' do
     let(:options) { File.expand_path('../fixtures/basic_movement.txt', __dir__) }
 
     it 'executes commands from file' do
-      output, = execute_simlation
+      output, status = execute_simlation
 
-      expect(output).to match('0,1,NORTH')
+      expect([output, status]).to match(["0,1,NORTH\n", be_success])
     end
   end
 
@@ -27,14 +27,17 @@ RSpec.describe 'Executable interface' do
         LEFT
         MOVE
         REPORT
+        LEFT
+        MOVE
+        REPORT
       COMMANDS
     end
     let(:options) { { stdin_data: commands } }
 
     it 'executes commands from standard input' do
-      output, = execute_simlation
+      output, status = execute_simlation
 
-      expect(output).to match('3,3,NORTH')
+      expect([output, status]).to match(["3,3,NORTH\n2,3,WEST\n", be_success])
     end
   end
 end

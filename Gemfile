@@ -2,10 +2,9 @@
 
 source 'https://rubygems.org'
 
-gem 'binding_of_caller'
-gem 'pry'
-
 group :test do
+  gem 'binding_of_caller'
+  gem 'pry'
   gem 'rspec'
   gem 'rspec-parameterized'
   gem 'rubocop', require: false
