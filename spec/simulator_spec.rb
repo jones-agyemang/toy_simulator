@@ -128,6 +128,36 @@ RSpec.describe Simulator do
       end
     end
 
+    context 'when command contains blank lines' do
+      let(:commands) do
+        [
+          'PLACE 0,0,NORTH',
+          'MOVE',
+          '',
+          'REPORT'
+        ]
+      end
+
+      it 'ignores blank lines' do
+        expect(simulator.output).to eq(['0,1,NORTH'])
+      end
+    end
+
+    context 'when command is surrounded by whitespace' do
+      let(:commands) do
+        [
+          ' PLACE 0,0,NORTH',
+          'MOVE',
+          '   RIGHT  ',
+          'REPORT'
+        ]
+      end
+
+      it 'ignores blank lines' do
+        expect(simulator.output).to eq(['0,1,EAST'])
+      end
+    end
+
     context 'when RIGHT follows a valid PLACE command' do
       let(:commands) do
         [
