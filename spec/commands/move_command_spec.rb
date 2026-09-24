@@ -2,31 +2,10 @@
 
 require_relative '../../lib/robot'
 require_relative '../../lib/commands/move_command'
+require_relative 'shared_examples/argumentless_command'
 
 RSpec.describe MoveCommand do
-  subject(:invoke_command!) { described_class.call(robot, args) }
-
-  let(:robot) { instance_spy(Robot) }
-
-  describe '.call' do
-    before { invoke_command! }
-
-    context 'with no arguments' do
-      let(:args) { nil }
-
-      it 'delegates movement to the robot' do
-        expect(robot).to have_received(:move).once
-      end
-    end
-
-    context 'with arguments' do
-      let(:args) { 'foo' }
-
-      it 'ignores the command' do
-        expect(robot).not_to have_received(:move)
-      end
-    end
-  end
+  it_behaves_like 'an argumentless command', :move
 
   describe '.produces_report?' do
     it 'produces no output' do

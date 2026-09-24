@@ -2,31 +2,10 @@
 
 require_relative '../../lib/robot'
 require_relative '../../lib/commands/right_command'
+require_relative 'shared_examples/argumentless_command'
 
 RSpec.describe RightCommand do
-  subject(:invoke_command!) { described_class.call(robot, args) }
-
-  let(:robot) { instance_spy(Robot) }
-
-  describe '.call' do
-    before { invoke_command! }
-
-    context 'with no arguments' do
-      let(:args) { nil }
-
-      it 'delegates right rotation to the robot' do
-        expect(robot).to have_received(:right).once
-      end
-    end
-
-    context 'with arguments' do
-      let(:args) { 'foo' }
-
-      it 'ignores the command' do
-        expect(robot).not_to have_received(:right)
-      end
-    end
-  end
+  it_behaves_like 'an argumentless command', :right
 
   describe '.produces_report?' do
     it 'produces no output' do

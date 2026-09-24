@@ -2,31 +2,10 @@
 
 require_relative '../../lib/robot'
 require_relative '../../lib/commands/report_command'
+require_relative 'shared_examples/argumentless_command'
 
 RSpec.describe ReportCommand do
-  subject(:invoke_command!) { described_class.call(robot, args) }
-
-  let(:robot) { instance_spy(Robot, report: '0,0,NORTH') }
-
-  describe '.call' do
-    before { invoke_command! }
-
-    context 'with no arguments' do
-      let(:args) { nil }
-
-      it 'delegates reporting to the robot' do
-        expect(robot).to have_received(:report).once
-      end
-    end
-
-    context 'with arguments' do
-      let(:args) { 'foo' }
-
-      it 'ignores the command' do
-        expect(robot).not_to have_received(:report)
-      end
-    end
-  end
+  it_behaves_like 'an argumentless command', :report
 
   describe '.produces_report?' do
     it 'produces output' do
