@@ -49,12 +49,14 @@ class Robot
   def move
     return unless placed?
 
-    x_axis, y_axis = MOVEMENT_MAPPING[orientation]
+    x_delta, y_delta = MOVEMENT_MAPPING[orientation]
+    x_next = x + x_delta
+    y_next = y + y_delta
 
-    return unless table.within_bounds?(x + x_axis, y + y_axis)
+    return unless table.within_bounds?(x_next, y_next)
 
-    @x += x_axis
-    @y += y_axis
+    @x = x_next
+    @y = y_next
   end
 
   def left
