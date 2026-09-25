@@ -16,7 +16,7 @@ RSpec.describe Robot do
         let(:width) { 3 }
 
         it 'ignores placing the robot' do
-          robot.place(x: 5, y: 5, orientation: 'NORTH')
+          robot.place(x: 5, y: 5, orientation: :north)
 
           expect(robot.position).to eq({ x: nil, y: nil, orientation: nil })
         end
@@ -24,7 +24,7 @@ RSpec.describe Robot do
 
       context 'when within the confines of the table' do
         it 'positions it on the table' do
-          robot.place(x: 0, y: 0, orientation: 'NORTH')
+          robot.place(x: 0, y: 0, orientation: :north)
 
           expect(robot.position).to eq({ x: 0, y: 0, orientation: 'NORTH' })
         end
@@ -33,7 +33,7 @@ RSpec.describe Robot do
       context 'with invalid orientation' do
         it 'does not position it on the table' do
           expect do
-            robot.place(x: 0, y: 0, orientation: 'ICEBERG')
+            robot.place(x: 0, y: 0, orientation: :iceberg)
           end.not_to change(robot, :position)
         end
       end
@@ -49,7 +49,7 @@ RSpec.describe Robot do
 
     context 'when robot is placed' do
       it 'reports current position' do
-        robot.place(x: 0, y: 0, orientation: 'NORTH')
+        robot.place(x: 0, y: 0, orientation: :north)
 
         expect(robot.report).to eq('0,0,NORTH')
       end
@@ -60,10 +60,10 @@ RSpec.describe Robot do
     context 'when moving out of bounds' do
       where(:initial_x, :initial_y, :initial_orientation) do
         [
-          [0, 0, 'SOUTH'],
-          [4, 4, 'NORTH'],
-          [0, 0, 'WEST'],
-          [4, 4, 'EAST']
+          [0, 0, :south],
+          [4, 4, :north],
+          [0, 0, :west],
+          [4, 4, :east]
         ]
       end
 
@@ -72,20 +72,19 @@ RSpec.describe Robot do
           starting_position = { x: initial_x, y: initial_y, orientation: initial_orientation }
 
           robot.place(**starting_position)
-          robot.move
 
-          expect(robot.position).to eq(starting_position)
+          expect { robot.move }.not_to change(robot, :position)
         end
       end
     end
 
     context 'when moving within boundary' do
-      where(:facing, :expected_x, :expected_y) do
+      where(:facing, :orientation, :expected_x, :expected_y) do
         [
-          ['NORTH', 2, 3],
-          ['SOUTH', 2, 1],
-          ['EAST', 3, 2],
-          ['WEST', 1, 2]
+          [:north, 'NORTH', 2, 3],
+          [:south, 'SOUTH', 2, 1],
+          [:east, 'EAST', 3, 2],
+          [:west, 'WEST', 1, 2]
         ]
       end
       let(:starting_position) { { x: 2, y: 2, orientation: facing } }
@@ -95,7 +94,7 @@ RSpec.describe Robot do
           robot.place(**starting_position)
           robot.move
 
-          expect(robot.position).to eq({ x: expected_x, y: expected_y, orientation: facing })
+          expect(robot.position).to eq({ x: expected_x, y: expected_y, orientation: })
         end
       end
     end
@@ -107,10 +106,10 @@ RSpec.describe Robot do
     describe '#left' do
       where(:initial_orientation, :final_orientation) do
         [
-          %w[NORTH WEST],
-          %w[WEST SOUTH],
-          %w[SOUTH EAST],
-          %w[EAST NORTH]
+          [:north, 'WEST'],
+          [:west, 'SOUTH'],
+          [:south, 'EAST'],
+          [:east, 'NORTH']
         ]
       end
 
@@ -131,10 +130,10 @@ RSpec.describe Robot do
     describe '#right' do
       where(:initial_orientation, :final_orientation) do
         [
-          %w[NORTH EAST],
-          %w[EAST SOUTH],
-          %w[SOUTH WEST],
-          %w[WEST NORTH]
+          [:north, 'EAST'],
+          [:east, 'SOUTH'],
+          [:south, 'WEST'],
+          [:west, 'NORTH']
         ]
       end
 

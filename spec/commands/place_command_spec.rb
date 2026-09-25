@@ -47,7 +47,7 @@ RSpec.describe PlaceCommand do
         let(:args) { '0,1,NORTH' }
 
         it 'delegates move to robot' do
-          expect(robot).to have_received(:place).with(x: 0, y: 1, orientation: 'NORTH')
+          expect(robot).to have_received(:place).with(x: '0', y: '1', orientation: 'NORTH')
         end
       end
     end

@@ -13,7 +13,8 @@ class PlaceCommand < BaseCommand
     return unless valid_args?
 
     x, y, orientation = args
-    robot.place(x: x.to_i, y: y.to_i, orientation:)
+
+    robot.place(x:, y:, orientation:)
   end
 
   private
