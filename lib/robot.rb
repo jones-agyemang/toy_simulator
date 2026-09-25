@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 require_relative '../lib/table'
 
 # Bot that facilitates exploration
@@ -10,7 +9,7 @@ class Robot
     west: :south,
     south: :east,
     east: :north
-  }.transform_values(&:freeze).freeze
+  }.freeze
   RIGHT_TURNS = LEFT_TURNS.invert.freeze
   VALID_ORIENTATIONS = LEFT_TURNS.keys.freeze
 
@@ -21,7 +20,7 @@ class Robot
     west: [-1, 0]
   }.transform_values(&:freeze).freeze
 
-  attr_reader :x, :y, :orientation, :placed, :table
+  attr_reader :x, :y, :placed, :table
 
   def initialize(table = Table.new)
     @table = table
@@ -45,6 +44,8 @@ class Robot
 
   def placed? = placed
 
+  def orientation = @orientation&.to_s&.upcase
+
   def report
     position.values.join(',') if placed?
   end
@@ -52,7 +53,7 @@ class Robot
   def move
     return unless placed?
 
-    x_delta, y_delta = MOVEMENT_MAPPING[orientation]
+    x_delta, y_delta = MOVEMENT_MAPPING[@orientation]
     x_next = x + x_delta
     y_next = y + y_delta
 
@@ -65,17 +66,17 @@ class Robot
   def left
     return unless placed?
 
-    @orientation = LEFT_TURNS.fetch(orientation)
+    @orientation = LEFT_TURNS.fetch(@orientation)
   end
 
   def right
     return unless placed?
 
-    @orientation = RIGHT_TURNS.fetch(orientation)
+    @orientation = RIGHT_TURNS.fetch(@orientation)
   end
 
   def position
-    { x:, y:, orientation: orientation&.to_s&.upcase }
+    { x:, y:, orientation: }
   end
 
   private

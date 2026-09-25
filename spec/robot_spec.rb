@@ -56,6 +56,14 @@ RSpec.describe Robot do
     end
   end
 
+  describe '#orientation' do
+    it 'returns the same external representation as position' do
+      robot.place(x: 0, y: 0, orientation: :north)
+
+      expect(robot.orientation).to eq(robot.position[:orientation]).and eq('NORTH')
+    end
+  end
+
   describe '#move' do
     context 'when moving out of bounds' do
       where(:initial_x, :initial_y, :initial_orientation) do
