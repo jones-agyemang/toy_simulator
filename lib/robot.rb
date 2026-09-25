@@ -4,13 +4,14 @@ require_relative '../lib/table'
 
 # Bot that facilitates exploration
 class Robot
-  ORIENTATION_MAPPING = {
+  LEFT_TURNS = {
     'NORTH' => 'WEST',
     'WEST' => 'SOUTH',
     'SOUTH' => 'EAST',
     'EAST' => 'NORTH'
   }.freeze
-  VALID_ORIENTATIONS = ORIENTATION_MAPPING.keys.freeze
+  RIGHT_TURNS = LEFT_TURNS.invert.freeze
+  VALID_ORIENTATIONS = LEFT_TURNS.keys.freeze
 
   MOVEMENT_MAPPING = {
     'NORTH' => [0, 1],
@@ -31,8 +32,7 @@ class Robot
 
   # rubocop:disable-next Naming/MethodParameterName
   def place(x:, y:, orientation:)
-    return unless table.within_bounds?(x, y)
-    return unless VALID_ORIENTATIONS.include?(orientation)
+    return unless table.within_bounds?(x, y) && VALID_ORIENTATIONS.include?(orientation)
 
     @placed = true
     @x = x
@@ -43,9 +43,7 @@ class Robot
   def placed? = placed
 
   def report
-    return unless placed?
-
-    [x, y, orientation].join(',')
+    [x, y, orientation].join(',') if placed?
   end
 
   def move
@@ -53,7 +51,7 @@ class Robot
 
     x_axis, y_axis = MOVEMENT_MAPPING[orientation]
 
-    return unless table.within_bounds?(@x + x_axis, @y + y_axis)
+    return unless table.within_bounds?(x + x_axis, y + y_axis)
 
     @x += x_axis
     @y += y_axis
@@ -62,16 +60,16 @@ class Robot
   def left
     return unless placed?
 
-    @orientation = ORIENTATION_MAPPING.fetch(@orientation)
+    @orientation = LEFT_TURNS.fetch(orientation)
   end
 
   def right
     return unless placed?
 
-    @orientation = ORIENTATION_MAPPING.invert.fetch(@orientation)
+    @orientation = RIGHT_TURNS.fetch(orientation)
   end
 
   def position
-    { x: @x, y: @y, orientation: @orientation }
+    { x:, y:, orientation: }
   end
 end
