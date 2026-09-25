@@ -18,7 +18,7 @@ class Robot
     'SOUTH' => [0, -1],
     'EAST' => [1, 0],
     'WEST' => [-1, 0]
-  }.freeze
+  }.transform_values(&:freeze).freeze
 
   attr_reader :x, :y, :orientation, :placed, :table
 
